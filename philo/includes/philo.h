@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_main.c                                       :+:      :+:    :+:   */
+/*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/13 14:52:35 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/09/13 14:53:01 by tgrossma         ###   ########.fr       */
+/*   Created: 2021/09/13 14:49:38 by tgrossma          #+#    #+#             */
+/*   Updated: 2021/09/13 14:51:59 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/philo.h"
-
-int	main(void)
-{
-	return (0);
-}
+#ifndef PHILO_H
+# define PHILO_H
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <sys/time.h>
+# include <pthread.h>
+#endif
