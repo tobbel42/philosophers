@@ -1,32 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_main.c                                       :+:      :+:    :+:   */
+/*   philo_errors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/13 14:52:35 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/09/20 18:08:28 by tgrossma         ###   ########.fr       */
+/*   Created: 2021/09/14 12:36:47 by tgrossma          #+#    #+#             */
+/*   Updated: 2021/09/14 15:07:00 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int	main(int argc, char **argv)
+/*
+//prints a defined error message to stderr
+*/
+int	philo_errors(int err_code)
 {
-	t_data	*data;
-
-	if (argc != 5 && argc != 6)
-		return (philo_errors(1));
-	data = (t_data *)malloc(sizeof(t_data));
-	if (!data)
-		return (philo_errors(2));
-	if (philo_init(argc, argv, data))
-	{
-		free(data);
-		return (philo_errors(3));
-	}
-	philo_create_threads(data);
-	// system("leaks philo");
-	return (0);
+	if (err_code == 1)
+		write(2, "Error: incorrect number of arguments\n", 37);
+	else if (err_code == 2)
+		write(2, "Error: malloc error\n", 20);
+	else if (err_code == 3)
+		write(2, "Error: wrong input argument\n", 28);
+	else
+		write(2, "Error\n", 6);
+	return (1);
 }

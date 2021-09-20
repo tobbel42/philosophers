@@ -1,32 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_main.c                                       :+:      :+:    :+:   */
+/*   philo_time.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/13 14:52:35 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/09/20 18:08:28 by tgrossma         ###   ########.fr       */
+/*   Created: 2021/09/20 17:01:02 by tgrossma          #+#    #+#             */
+/*   Updated: 2021/09/20 17:27:46 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int	main(int argc, char **argv)
+long	philo_get_timestamp(t_data *data)
 {
-	t_data	*data;
+	long			temp;
+	struct timeval	time;
 
-	if (argc != 5 && argc != 6)
-		return (philo_errors(1));
-	data = (t_data *)malloc(sizeof(t_data));
-	if (!data)
-		return (philo_errors(2));
-	if (philo_init(argc, argv, data))
-	{
-		free(data);
-		return (philo_errors(3));
-	}
-	philo_create_threads(data);
-	// system("leaks philo");
-	return (0);
+	gettimeofday(&time, NULL);
+	temp = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+	return (temp - data->start_time); 
+}
+
+void	philo_get_start_time(t_data *data)
+{
+	long			temp;
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	temp = (time.tv_sec * 1000) + (time.tv_usec / 1000);
+	data->start_time = temp; 
 }

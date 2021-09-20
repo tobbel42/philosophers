@@ -1,32 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_main.c                                       :+:      :+:    :+:   */
+/*   philo_cleanup.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/13 14:52:35 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/09/20 18:08:28 by tgrossma         ###   ########.fr       */
+/*   Created: 2021/09/20 15:06:46 by tgrossma          #+#    #+#             */
+/*   Updated: 2021/09/20 18:00:02 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int	main(int argc, char **argv)
+void	join_the_philos(t_philo **philos, t_data *data)
 {
-	t_data	*data;
+	int i;
 
-	if (argc != 5 && argc != 6)
-		return (philo_errors(1));
-	data = (t_data *)malloc(sizeof(t_data));
-	if (!data)
-		return (philo_errors(2));
-	if (philo_init(argc, argv, data))
+	i = 0;
+	while (i < data->n_philo)
 	{
-		free(data);
-		return (philo_errors(3));
+		pthread_mutex_unlock(&data->forks[i]);
+		i++;
 	}
-	philo_create_threads(data);
-	// system("leaks philo");
-	return (0);
+	i = 0;
+	while (i < data->n_philo)
+	{
+		pthread_join(philos[i]->thread, NULL);
+		i++;
+	}
 }
