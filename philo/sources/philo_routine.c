@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 12:13:50 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/09/20 18:17:05 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/09/21 15:01:56 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ void	*philo_even_routine(void *arg)
 	philo = (t_philo *)arg;
 	while (!philo->data->go)
 		usleep(1);
-	philo->data->t_last_meal[philo->id] = philo->data->curr_time;
+	philo->data->t_last_meal[philo->id - 1] = philo->data->c_t;
 	while (!philo->data->death)
 	{
 		philo_eat(philo);
 		if (philo->data->death)
-			break;
+			break ;
 		philo_sleep(philo);
 	}
 	return (NULL);
@@ -34,15 +34,15 @@ void	*philo_odd_routine(void *arg)
 {
 	t_philo	*philo;
 
-	philo = (t_philo *)arg;	
+	philo = (t_philo *)arg;
 	while (!philo->data->go)
 		usleep(1);
-	philo->data->t_last_meal[philo->id] = philo->data->curr_time;
+	philo->data->t_last_meal[philo->id - 1] = philo->data->c_t;
 	while (!philo->data->death)
 	{	
 		philo_sleep(philo);
 		if (philo->data->death)
-			break;
+			break ;
 		philo_eat(philo);
 	}
 	return (NULL);
@@ -50,66 +50,37 @@ void	*philo_odd_routine(void *arg)
 
 void	philo_sleep(t_philo *philo)
 {
-	long	start_time;
+	long	s_t;
 
-	start_time = philo_get_timestamp(philo->data);
-	if (!philo->data->death)
-		printf("%ld\t%i\tis sleeping\n", start_time, philo->id);
-	while (philo->data->curr_time - start_time < philo->data->sleep_t && !philo->data->death)
-		usleep(100);		//mod here
-	if (!philo->data->death)
-		printf("%ld\t%i\tis thinking\n", philo->data->curr_time, philo->id);
+	s_t = philo_get_timestamp(philo->data);
+	philo_print(philo->data, 1, s_t, philo->id);
+	while (philo->data->c_t - s_t < philo->data->sleep_t && !philo->data->death)
+		usleep(100);
+	philo_print(philo->data, 2, philo->data->c_t, philo->id);
 }
 
 void	philo_eat(t_philo *philo)
 {
-	long	start_time;
+	long	s_t;
 
 	if (philo->id == philo->data->n_philo && !philo->data->death)
 		pthread_mutex_lock(&philo->data->forks[0]);
-	else if (philo->data->death)
+	else if (!philo->data->death)
 		pthread_mutex_lock(&philo->data->forks[philo->id]);
-	if (!philo->data->death)
-		printf("%ld\t%i\thas taken a fork\n", philo->data->curr_time , philo->id);
+	philo_print(philo->data, 3, philo->data->c_t, philo->id);
 	if (!philo->data->death)
 		pthread_mutex_lock(&philo->data->forks[philo->id - 1]);
-	if (!philo->data->death)
-		printf("%ld\t%i\thas taken a fork\n", philo->data->curr_time , philo->id);
-	start_time = philo->data->curr_time;
-	philo->data->t_last_meal[philo->id - 1] = start_time;
-	if (!philo->data->death)
-		printf("%ld\t%i\tis eating\n", start_time , philo->id);
-	while (philo->data->curr_time - start_time <= philo->data->eat_t && !philo->data->death)
-		usleep(100);		//mod here
+	philo_print(philo->data, 3, philo->data->c_t, philo->id);
+	s_t = philo->data->c_t;
+	philo->data->t_last_meal[philo->id - 1] = s_t;
+	philo_print(philo->data, 4, s_t, philo->id);
+	while (philo->data->c_t - s_t <= philo->data->eat_t && !philo->data->death)
+		usleep(100);
 	if (philo->id == philo->data->n_philo)
 		pthread_mutex_unlock(&philo->data->forks[0]);
 	else
 		pthread_mutex_unlock(&philo->data->forks[philo->id]);
 	pthread_mutex_unlock(&philo->data->forks[philo->id - 1]);
-	philo->n_eat++;
-}
-
-void	*philo_death_routine(void *arg)
-{
-	t_data	*data;
-	int 	i;
-
-	data = (t_data *)arg;
-	philo_get_start_time(data);
-	data->go = 1;
-	i = 0;
-	while (i < data->n_philo)
-	{
-		data->curr_time = philo_get_timestamp(data);
-		if (data->curr_time - data->t_last_meal[i] > data->die_t)
-		{
-			printf("%ld\t%i\thas died\n", data->curr_time, i + 1);
-			data->death = 1;
-			break ;
-		}
-		i++;
-		if (i == data->n_philo)
-			i = 0;
-	}
-	return (NULL);
+	if (philo->data->eat_flag)
+		philo->data->meals_eaten[philo->id - 1]++;
 }

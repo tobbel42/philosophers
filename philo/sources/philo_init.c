@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/14 12:49:41 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/09/20 17:37:58 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/09/21 13:24:53 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,20 @@ int	philo_init(int argc, char **argv, t_data *data)
 	data->sleep_t = ft_atoi(argv[4]);
 	if (data->sleep_t < 0)
 		return (1);
+	data->eat_flag = 0;
 	if (argc == 6)
 	{
 		data->n_to_eat = ft_atoi(argv[5]);
 		if (data->n_to_eat < 0)
 			return (1);
+		data->eat_flag = 1;
 	}
-	else
-		data->n_to_eat = -1;
 	data->forks = NULL;
 	create_the_forks(data);
+	pthread_mutex_init(&data->print, NULL);
 	data->go = 0;
 	data->death = 0;
 	data->t_last_meal = (long *)malloc(sizeof(long) * data->n_philo);
+	data->meals_eaten = (int *)malloc(sizeof(int) * data->n_philo);
 	return (0);
 }

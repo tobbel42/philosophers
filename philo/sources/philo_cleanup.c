@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 15:06:46 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/09/20 18:00:02 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/09/21 14:54:14 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	join_the_philos(t_philo **philos, t_data *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < data->n_philo)
@@ -28,4 +28,56 @@ void	join_the_philos(t_philo **philos, t_data *data)
 		pthread_join(philos[i]->thread, NULL);
 		i++;
 	}
+}
+
+void	clean_the_corpses(t_philo **philos, t_data *data)
+{
+	int	i;
+
+	if (!philos)
+		return ;
+	i = 0;
+	while (i < data->n_philo)
+	{
+		free(philos[i]);
+		i++;
+	}
+	free(philos);
+}
+
+static void	vanish_the_forks(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	if (!data->forks)
+		return ;
+	while (i < data->n_philo)
+	{
+		pthread_mutex_destroy(&data->forks[i]);
+		i++;
+	}
+	free(data->forks);
+	data->forks = NULL;
+}
+
+void	burn_the_evidence(t_data *data)
+{
+	if (!data)
+		return ;
+	vanish_the_forks(data);
+	if (data->t_last_meal)
+	{
+		free(data->t_last_meal);
+		data->t_last_meal = NULL;
+	}
+	if (data->meals_eaten)
+	{
+		free(data->meals_eaten);
+		data->meals_eaten = NULL;
+	}
+	pthread_mutex_unlock(&data->print);
+	pthread_mutex_destroy(&data->print);
+	free(data);
+	data = NULL;
 }

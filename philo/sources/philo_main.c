@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/13 14:52:35 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/09/20 18:08:28 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/09/21 12:29:23 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int argc, char **argv)
 		return (philo_errors(3));
 	}
 	philo_create_threads(data);
-	// system("leaks philo");
+	burn_the_evidence(data);
+	system("leaks philo");
 	return (0);
 }
