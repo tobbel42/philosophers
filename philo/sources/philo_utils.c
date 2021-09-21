@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 13:22:05 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/09/21 15:01:01 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/09/21 16:19:10 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,31 @@ void	philo_print(t_data *data, int mode, long time, int id)
 		printf("%ld\t%i\t%s\n", time, id, s);
 	}
 	pthread_mutex_unlock(&data->print);
+}
+
+int	philo_atoi(char *s, t_data *data, int min, int max)
+{
+	int		i;
+	long	nbr;
+
+	i = 0;
+	nbr = 0;
+	while ((s[i] >= 9 && s[i] <= 15) || s[i] == 32)
+		i++;
+	if (s[i] < '0' || s[i] > '9')
+	{
+		data->error_flag = 1;
+		return (-1);
+	}
+	while (s[i] >= '0' && s[i] <= '9')
+	{
+		nbr = (nbr * 10) + (s[i] - '0');
+		i++;
+	}
+	if (s[i] != '\0' || nbr > max || nbr < min)
+	{
+		data->error_flag = 1;
+		return (-1);
+	}
+	return (nbr);
 }

@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 15:06:46 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/09/21 14:54:14 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/09/21 16:03:13 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,27 @@ void	join_the_philos(t_philo **philos, t_data *data)
 		i++;
 	}
 	i = 0;
-	while (i < data->n_philo)
+	while (i < data->n_philo && philos[i])
 	{
 		pthread_join(philos[i]->thread, NULL);
 		i++;
 	}
 }
 
-void	clean_the_corpses(t_philo **philos, t_data *data)
+void	vanish_the_corpses(t_philo **philos, t_data *data)
 {
 	int	i;
 
 	if (!philos)
 		return ;
 	i = 0;
-	while (i < data->n_philo)
+	while (i < data->n_philo && philos[i])
 	{
 		free(philos[i]);
 		i++;
 	}
 	free(philos);
+	philos = NULL;
 }
 
 static void	vanish_the_forks(t_data *data)
