@@ -6,7 +6,7 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 12:01:24 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/09/21 16:13:50 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/09/22 10:34:56 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,9 @@ static int	spawn_the_philos(t_philo **philos, t_data *data)
 	return (0);
 }
 
+/*
+//creates the philosophers, the death and the eat thread(if needed)
+*/
 int	philo_create_threads(t_data *data)
 {
 	pthread_t	death;

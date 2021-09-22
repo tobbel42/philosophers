@@ -6,12 +6,15 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 13:22:05 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/09/21 16:19:10 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/09/22 10:43:46 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
+/*
+//prints the philosophers action
+*/
 void	philo_print(t_data *data, int mode, long time, int id)
 {
 	char	*s;
@@ -39,6 +42,10 @@ void	philo_print(t_data *data, int mode, long time, int id)
 	pthread_mutex_unlock(&data->print);
 }
 
+/*
+//atoi, checks if nbr is in <min, max> boarders
+//sets data->error to 1 on error
+*/
 int	philo_atoi(char *s, t_data *data, int min, int max)
 {
 	int		i;

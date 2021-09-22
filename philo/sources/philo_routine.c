@@ -6,12 +6,15 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 12:13:50 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/09/21 15:01:56 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/09/22 10:38:16 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
+/*
+//for even philosophers, they start eating
+*/
 void	*philo_even_routine(void *arg)
 {
 	t_philo	*philo;
@@ -30,6 +33,9 @@ void	*philo_even_routine(void *arg)
 	return (NULL);
 }
 
+/*
+//for odd philosophers, they start sleeping
+*/
 void	*philo_odd_routine(void *arg)
 {
 	t_philo	*philo;
@@ -48,6 +54,9 @@ void	*philo_odd_routine(void *arg)
 	return (NULL);
 }
 
+/*
+//sleep routine, sleep, then think
+*/
 void	philo_sleep(t_philo *philo)
 {
 	long	s_t;
@@ -59,6 +68,9 @@ void	philo_sleep(t_philo *philo)
 	philo_print(philo->data, 2, philo->data->c_t, philo->id);
 }
 
+/*
+//eat routine, grap 2 forks, then eat
+*/
 void	philo_eat(t_philo *philo)
 {
 	long	s_t;

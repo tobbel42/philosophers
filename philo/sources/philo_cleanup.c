@@ -6,12 +6,16 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/20 15:06:46 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/09/21 16:03:13 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/09/22 10:32:57 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
+/*
+//unlocks any philos stuck with a fork,
+//then waits till all philo threads have ended
+*/
 void	join_the_philos(t_philo **philos, t_data *data)
 {
 	int	i;
@@ -30,6 +34,9 @@ void	join_the_philos(t_philo **philos, t_data *data)
 	}
 }
 
+/*
+//frees all the philosophers and then the array itself
+*/
 void	vanish_the_corpses(t_philo **philos, t_data *data)
 {
 	int	i;
@@ -46,6 +53,9 @@ void	vanish_the_corpses(t_philo **philos, t_data *data)
 	philos = NULL;
 }
 
+/*
+//destroys all fork mutex locks
+*/
 static void	vanish_the_forks(t_data *data)
 {
 	int	i;
@@ -62,6 +72,9 @@ static void	vanish_the_forks(t_data *data)
 	data->forks = NULL;
 }
 
+/*
+//cleans up the whole data struct
+*/
 void	burn_the_evidence(t_data *data)
 {
 	if (!data)

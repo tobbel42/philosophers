@@ -6,12 +6,15 @@
 /*   By: tgrossma <tgrossma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 12:35:58 by tgrossma          #+#    #+#             */
-/*   Updated: 2021/09/21 16:19:05 by tgrossma         ###   ########.fr       */
+/*   Updated: 2021/09/22 10:36:07 by tgrossma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
+/*
+//death thread, checks if somebody died, and sets the current time
+*/
 void	*philo_death_routine(void *arg)
 {
 	t_data	*data;
@@ -33,6 +36,9 @@ void	*philo_death_routine(void *arg)
 	return (NULL);
 }
 
+/*
+//checks if all philos had eaten enough
+*/
 void	*philo_eat_routine(void *arg)
 {
 	t_data	*data;
